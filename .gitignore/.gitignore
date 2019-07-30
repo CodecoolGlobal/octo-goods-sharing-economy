@@ -1,0 +1,36 @@
+# Maven specific files
+
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Spring specific files
+
+mvnw.cmd
+mvnw
+HELP.md
+
+# IntelliJ files
+
+.idea
+*.iml
+.classpath
+.settings
+.project
+
+# Vs code
+
+.vscode
+
+# System files
+
+.DS_Store
