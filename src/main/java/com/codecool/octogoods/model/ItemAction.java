@@ -1,6 +1,6 @@
 package com.codecool.octogoods.model;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +16,7 @@ public class ItemAction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,8 +27,8 @@ public class ItemAction {
     @JoinColumn(name = "borrower_id")
     private User borrower;
 
-    @Column(columnDefinition = "TIME") //TIMESTAMP WITH TIMEZONE
-    private OffsetDateTime date;
+    @Column
+    private ZonedDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "action_status_id")
