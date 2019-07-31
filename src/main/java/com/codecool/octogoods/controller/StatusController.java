@@ -18,7 +18,7 @@ public class StatusController {
     }
 
     @PostMapping
-    public void addStatus(@RequestBody ActionStatus status){
+    public void addStatus(@Valid @RequestBody ActionStatus status) {
         statusService.add(status);
     }
 
@@ -35,6 +35,11 @@ public class StatusController {
     @PutMapping(path = "{id}")
     public void updateStatusById(@PathVariable int id, @Valid @RequestBody ActionStatus status){
         statusService.putById(id, status);
+    }
+
+    @PatchMapping(path = "{id}")
+    public void patchStatusById(@PathVariable int id, @RequestBody String jsonBody) {
+        statusService.patchById(id, jsonBody);
     }
 
 
