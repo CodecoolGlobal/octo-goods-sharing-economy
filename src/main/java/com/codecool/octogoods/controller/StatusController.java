@@ -4,6 +4,7 @@ import com.codecool.octogoods.model.ActionStatus;
 import com.codecool.octogoods.service.StatusService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/status")
@@ -30,4 +31,11 @@ public class StatusController {
     public ActionStatus getStatusById(@PathVariable int id){
         return statusService.getById(id);
     }
+
+    @PutMapping(path = "{id}")
+    public void updateStatusById(@PathVariable int id, @Valid @RequestBody ActionStatus status){
+        statusService.putById(id, status);
+    }
+
+
 }
