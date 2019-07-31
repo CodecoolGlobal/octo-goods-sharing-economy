@@ -11,13 +11,18 @@ public class ActionStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
 
+    @Column
     @NotBlank
     private String name;
 
+    @Column
     @NotNull
     private Boolean available;
+
+    @Column
 
     @NotNull
     private Boolean isActive;
