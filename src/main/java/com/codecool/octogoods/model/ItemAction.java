@@ -26,7 +26,7 @@ public class ItemAction {
     @JoinColumn(name = "borrower_id")
     private User borrower;
 
-    @Column(columnDefinition = "TIMESTAMP WITH TIMEZONE")
+    @Column(columnDefinition = "TIME")
     private OffsetDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
