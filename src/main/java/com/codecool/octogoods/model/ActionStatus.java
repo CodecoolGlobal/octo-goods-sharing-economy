@@ -13,4 +13,5 @@ public class ActionStatus {
     private int id;
     private String name;
     private boolean availability;
+    private boolean isActive;
 }
