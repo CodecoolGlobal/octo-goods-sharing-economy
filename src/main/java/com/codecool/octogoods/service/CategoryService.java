@@ -20,9 +20,8 @@ public class CategoryService {
     }
 
     public List<Category> getAllCategories() {
-        Iterable<Category> categoryIterable = categoryRepository.findAll();
         List<Category> categories = new ArrayList<>();
-        categoryIterable.forEach(categories::add);
+        categoryRepository.findAll().forEach(categories::add);
         return categories;
     }
 }
