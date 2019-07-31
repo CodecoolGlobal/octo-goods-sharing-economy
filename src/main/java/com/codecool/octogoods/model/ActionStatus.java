@@ -1,10 +1,10 @@
 package com.codecool.octogoods.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class ActionStatus {
@@ -16,11 +16,11 @@ public class ActionStatus {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private boolean available;
+    @NotNull
+    private Boolean available;
 
-    @NotBlank
-    private boolean isActive;
+    @NotNull
+    private Boolean isActive;
 
     public int getId() {
         return id;
