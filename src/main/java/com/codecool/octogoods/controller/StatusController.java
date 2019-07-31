@@ -2,10 +2,9 @@ package com.codecool.octogoods.controller;
 
 import com.codecool.octogoods.model.ActionStatus;
 import com.codecool.octogoods.service.StatusService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/status")
 @RestController
@@ -20,5 +19,15 @@ public class StatusController {
     @PostMapping
     public void addStatus(@RequestBody ActionStatus status){
         statusService.add(status);
+    }
+
+    @GetMapping
+    public List<ActionStatus> getAllStatuses(){
+        return statusService.getAll();
+    }
+
+    @GetMapping(path = "{id}")
+    public ActionStatus getStatusById(@PathVariable int id){
+        return statusService.getById(id);
     }
 }
