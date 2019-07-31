@@ -10,6 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class StatusService {
@@ -63,13 +64,16 @@ public class StatusService {
             Gson gson = new Gson();
             Map mapBody = gson.fromJson(jsonBody, Map.class);
             // and set them with reflection and save
-            mapBody.forEach((k, v) -> {
-                Field field = ReflectionUtils.findField(ActionStatus.class, (String) k);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, forUpdate, v);
-                System.out.println(String.format("Field %s set to %s", field.getName(), v.toString()));
-            });
-            statusRepository.save(forUpdate);
+            try {
+                mapBody.forEach((k, v) -> {
+                    Field field = ReflectionUtils.findField(ActionStatus.class, (String) k);
+                    Objects.requireNonNull(field).setAccessible(true);
+                    ReflectionUtils.setField(field, forUpdate, v);
+                });
+                statusRepository.save(forUpdate);
+            } catch (NullPointerException e) {
+                throw new IllegalArgumentException("Incorrect field set, please verify request body");
+            }
         } else {
             throw new EntityNotFoundException("Cannot find resource by 'id': " + id);
         }
