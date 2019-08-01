@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.lang.NonNull;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,15 @@ public class CategoryController {
     public ResponseEntity<Category> updateCategory(@Valid @NonNull @RequestBody Category category) {
         try {
             return new ResponseEntity<>(categoryService.updateCategory(category), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<Category> deleteCategoryById(@PathVariable("id") int id) {
+        try {
+            return new ResponseEntity<>(categoryService.deleteCategoryById(id), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

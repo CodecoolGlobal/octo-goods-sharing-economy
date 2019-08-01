@@ -49,4 +49,19 @@ public class CategoryService {
             throw new EntityNotFoundException("Failed to update. Category under given id does not exist.");
         }
     }
+
+    public Category deleteCategoryById(int id) {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        Category categoryToUpdate;
+        if (optionalCategory.isPresent()) {
+            categoryToUpdate = optionalCategory.get();
+            categoryToUpdate.setActive(false);
+            return  categoryRepository.save(categoryToUpdate);
+        } else {
+            throw new EntityNotFoundException("Failed to delete. Category under given id does not exist.");
+
+        }
+    }
+
+    //TODO: getAllActiveCategories, getAllNotActiveCategories
 }
