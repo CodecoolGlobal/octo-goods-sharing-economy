@@ -21,7 +21,6 @@ public class ActionStatus {
     private Boolean available;
 
     @Column
-
     @NotNull
     private Boolean active;
 
