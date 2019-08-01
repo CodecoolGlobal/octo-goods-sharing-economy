@@ -4,6 +4,7 @@ import com.codecool.octogoods.model.AddItemDTO;
 import com.codecool.octogoods.model.Category;
 import com.codecool.octogoods.model.Item;
 import com.codecool.octogoods.model.User;
+import com.codecool.octogoods.service.CategoryService;
 import com.codecool.octogoods.service.ItemService;
 import com.codecool.octogoods.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -57,9 +58,12 @@ public class ItemController {
 
     private Item convertToEntity(AddItemDTO addItemDTO) {
         User owner = userService.getById(addItemDTO.getUserId());
-        Category category = categoryService.getByName(addItemDTO.getName());
+        Category category = categoryService.getByName(addItemDTO.getCategoryName());
 
         Item item = modelMapper.map(addItemDTO, Item.class);
+        item.setOwner(owner);
+        item.setCategory(category);
+
         return item;
     }
 

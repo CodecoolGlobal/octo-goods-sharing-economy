@@ -5,6 +5,7 @@ import com.codecool.octogoods.model.User;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,7 +19,13 @@ public class UserService {
     }
 
     public List<User> getAll() {
-        return (List<User>) userRepository.findAll();
+        List<User> activeUsers = new ArrayList<>();
+        for (User user : userRepository.findAll()) {
+            if (user.isActive()) {
+                activeUsers.add(user);
+            }
+        }
+        return activeUsers;
     }
 
     public void add(User user) {
@@ -32,7 +39,9 @@ public class UserService {
     }
 
     public void deleteById(int id) {
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id).get();
+        user.setIsActive(false);
+        userRepository.save(user);
     }
 
     public void updateUserById(int id, User user) {

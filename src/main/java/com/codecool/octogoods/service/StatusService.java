@@ -79,7 +79,5 @@ public class StatusService {
         }
     }
 
-    public ActionStatus getByName(String name) {
-        return statusRepository.getByName(name);
-    }
+
 }
