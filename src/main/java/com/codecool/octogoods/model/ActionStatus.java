@@ -1,7 +1,5 @@
 package com.codecool.octogoods.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +12,7 @@ public class ActionStatus {
     @Column
     private int id;
 
-    @Column
+    @Column(unique = true)
     @NotBlank
     private String name;
 

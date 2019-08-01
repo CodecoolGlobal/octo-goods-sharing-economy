@@ -78,4 +78,8 @@ public class StatusService {
             throw new EntityNotFoundException("Cannot find resource by 'id': " + id);
         }
     }
+
+    public ActionStatus getByName(String name) {
+        return statusRepository.getByName(name);
+    }
 }
