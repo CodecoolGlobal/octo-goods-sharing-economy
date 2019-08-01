@@ -52,8 +52,9 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<Category> getCategoryByName(@PathVariable("name") String name) {
+    @GetMapping(params = {"name"})
+    public ResponseEntity<Category> getCategoryByName(@RequestParam(value = "name") String name) {
+        name = name.toLowerCase();
         try {
             return new ResponseEntity<>(categoryService.getCategoryByName(name), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
