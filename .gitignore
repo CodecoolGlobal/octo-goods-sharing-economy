@@ -33,3 +33,7 @@ mvnw
 # System files
 
 .DS_Store
+
+# application properties
+*application.properties
+
