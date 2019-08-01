@@ -57,11 +57,10 @@ public class StatusService {
 
     public void patchById(int id, String jsonBody) {
         // check if resource exists at id location
-        if (statusRepository.existsById(id)) {
+        Optional<ActionStatus> forUpdate = statusRepository
+                .findById(id);
+        if (forUpdate.isPresent()) {
             // if so -> determine fields to change
-            ActionStatus forUpdate = statusRepository
-                    .findById(id)
-                    .get();
             Gson gson = new Gson();
             Map mapBody = gson.fromJson(jsonBody, Map.class);
             // and set them with reflection and save
@@ -69,9 +68,9 @@ public class StatusService {
                 mapBody.forEach((k, v) -> {
                     Field field = ReflectionUtils.findField(ActionStatus.class, (String) k);
                     Objects.requireNonNull(field).setAccessible(true);
-                    ReflectionUtils.setField(field, forUpdate, v);
+                    ReflectionUtils.setField(field, forUpdate.get(), v);
                 });
-                statusRepository.save(forUpdate);
+                statusRepository.save(forUpdate.get());
             } catch (NullPointerException e) {
                 throw new IllegalArgumentException("Incorrect field set, please verify request body");
             }
