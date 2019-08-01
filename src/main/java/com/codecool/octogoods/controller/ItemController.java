@@ -60,8 +60,13 @@ public class ItemController {
     }
 
     @PutMapping(path = "{id}")
-    public ResponseEntity<Item> updateItemById(@PathVariable int id, @Valid @RequestBody Item item) {
-        return itemService.putById(id, item);
+    public ResponseEntity<Item> updateItemById(@PathVariable int id, @Valid @RequestBody ItemAddDTO itemAddDTO) {
+        try {
+            Item item = convertToEntity(itemAddDTO);
+            return itemService.putById(id, item);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
     }
 
     private Item convertToEntity(ItemAddDTO itemAddDTO) {
