@@ -18,9 +18,9 @@ public class ItemService {
     }
 
     @Transactional
-    public void add(Item item) {
+    public Item add(Item item) {
         // TODO: add a record to ItemActions
-        itemRepository.save(item);
+        return itemRepository.save(item);
     }
 
     public List<Item> getAll() {

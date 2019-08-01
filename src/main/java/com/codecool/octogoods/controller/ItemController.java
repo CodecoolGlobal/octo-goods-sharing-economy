@@ -9,6 +9,7 @@ import com.codecool.octogoods.service.ItemService;
 import com.codecool.octogoods.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,22 +35,21 @@ public class ItemController {
     }
 
     @PostMapping
-    public void addItem(@Valid @RequestBody AddItemDTO addItemDTO) {
+    public ResponseEntity<Item> addItem(@Valid @RequestBody AddItemDTO addItemDTO) {
         Item item = convertToEntity(addItemDTO);
 
-        itemService.add(item);
+        return new ResponseEntity<>(itemService.add(item), HttpStatus.OK);
     }
 
-
     @GetMapping
-    public List<Item> getAllItems() {
-        return itemService.getAll();
+    public ResponseEntity<List<Item>> getAllItems() {
+        return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}")
-    public Item getItemById(@PathVariable int id) {
+    public ResponseEntity<Item> getItemById(@PathVariable int id) {
         try {
-            return itemService.getById(id);
+            return new ResponseEntity<>(itemService.getById(id), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, e.getMessage(), e);
