@@ -72,7 +72,7 @@ public class ItemController {
     private Item convertToEntity(ItemAddDTO itemAddDTO) {
         User owner = userService.getById(itemAddDTO.getUserId());
 
-        Category category = categoryService.getByName(itemAddDTO.getCategoryName());
+        Category category = categoryService.getCategoryByName(itemAddDTO.getCategoryName());
 
         Item item = modelMapper.map(itemAddDTO, Item.class);
         item.setOwner(owner);

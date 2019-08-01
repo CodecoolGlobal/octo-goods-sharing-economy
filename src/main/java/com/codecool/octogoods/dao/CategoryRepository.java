@@ -1,15 +1,18 @@
 package com.codecool.octogoods.dao;
 
-import com.codecool.octogoods.model.Category;
-import org.springframework.data.jpa.repository.Query;
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.codecool.octogoods.model.Category;
 
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
 
-    @Query("select c from Category c where c.name = :name")
-    public Optional<Category> getByName(String name);
+    Optional<Category> findByName(String name);
+
+    Iterable<Category> findAllByIsActiveTrue();
+
+    Iterable<Category> findAllByIsActiveFalse();
 }

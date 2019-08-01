@@ -2,6 +2,7 @@ package com.codecool.octogoods.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "categories")
@@ -13,6 +14,7 @@ public class Category {
 
     @Column(unique = true)
     @NotBlank
+    @NotNull
     private String name;
 
     @Column
@@ -31,7 +33,7 @@ public class Category {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
     }
 
     public boolean isActive() {
