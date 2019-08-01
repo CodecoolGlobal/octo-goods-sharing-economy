@@ -7,6 +7,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -18,9 +19,12 @@ public class Item {
     private Category category;
 
     @Embedded
+    @Column
     private Location location;
 
+    @Column
     private String name;
 
+    @Column
     private String description;
 }
