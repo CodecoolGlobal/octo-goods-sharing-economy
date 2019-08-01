@@ -3,6 +3,7 @@ package com.codecool.octogoods.controller;
 import com.codecool.octogoods.model.ActionStatus;
 import com.codecool.octogoods.service.StatusService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,15 +15,15 @@ import java.util.List;
 @RestController
 public class StatusController {
 
-    public final StatusService statusService;
+    private final StatusService statusService;
 
     public StatusController(StatusService statusService) {
         this.statusService = statusService;
     }
 
     @PostMapping
-    public void addStatus(@Valid @RequestBody ActionStatus status) {
-        statusService.add(status);
+    public ResponseEntity<ActionStatus> addStatus(@Valid @RequestBody ActionStatus status) {
+        return new ResponseEntity<>(statusService.add(status), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -31,9 +32,9 @@ public class StatusController {
     }
 
     @GetMapping(path = "{id}")
-    public ActionStatus getStatusById(@PathVariable int id) {
+    public ResponseEntity<ActionStatus> getStatusById(@PathVariable int id) {
         try {
-            return statusService.getById(id);
+            return new ResponseEntity<>(statusService.getById(id), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, e.getMessage(), e);
@@ -41,14 +42,14 @@ public class StatusController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateStatusById(@PathVariable int id, @Valid @RequestBody ActionStatus status) {
-        statusService.putById(id, status);
+    public ResponseEntity<ActionStatus> updateStatusById(@PathVariable int id, @Valid @RequestBody ActionStatus status) {
+        return statusService.putById(id, status);
     }
 
     @PatchMapping(path = "{id}")
-    public void patchStatusById(@PathVariable int id, @RequestBody String jsonBody) {
+    public ResponseEntity<ActionStatus> patchStatusById(@PathVariable int id, @RequestBody String jsonBody) {
         try {
-            statusService.patchById(id, jsonBody);
+            return new ResponseEntity<>(statusService.patchById(id, jsonBody), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, e.getMessage(), e);

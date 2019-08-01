@@ -20,7 +20,7 @@ public class UserService {
 
     public List<User> getAll() {
         List<User> activeUsers = new ArrayList<>();
-        for (User user: userRepository.findAll()) {
+        for (User user : userRepository.findAll()) {
             if (user.isActive()) {
                 activeUsers.add(user);
             }
