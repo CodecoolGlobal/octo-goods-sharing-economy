@@ -23,7 +23,7 @@ public class ActionStatus {
     @Column
 
     @NotNull
-    private Boolean isActive;
+    private Boolean active;
 
     public int getId() {
         return id;
@@ -50,10 +50,10 @@ public class ActionStatus {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.active = active;
     }
 }

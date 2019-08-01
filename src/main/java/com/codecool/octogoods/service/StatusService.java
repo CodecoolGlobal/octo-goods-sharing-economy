@@ -3,6 +3,8 @@ package com.codecool.octogoods.service;
 import com.codecool.octogoods.dao.StatusRepository;
 import com.codecool.octogoods.model.ActionStatus;
 import com.google.gson.Gson;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -22,8 +24,8 @@ public class StatusService {
         this.statusRepository = statusRepository;
     }
 
-    public void add(ActionStatus status) {
-        statusRepository.save(status);
+    public ActionStatus add(ActionStatus status) {
+        return statusRepository.save(status);
     }
 
     public List<ActionStatus> getAll() {
@@ -36,7 +38,7 @@ public class StatusService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find resource by 'id': " + id));
     }
 
-    public void putById(int id, ActionStatus status) {
+    public ResponseEntity<ActionStatus> putById(int id, ActionStatus status) {
         // check if all fields are present - covered by @Valid
         // check if resource exists at id location..
         Optional<ActionStatus> forUpdate = statusRepository
@@ -47,15 +49,15 @@ public class StatusService {
             statusForUpdate.setName(status.getName());
             statusForUpdate.setAvailable(status.isAvailable());
             statusForUpdate.setActive(status.isActive());
-            statusRepository.save(statusForUpdate);
+            return new ResponseEntity<>(statusRepository.save(statusForUpdate), HttpStatus.CREATED);
         } else {
             // if not -> insert it
             status.setId(id);
-            statusRepository.save(status);
+            return new ResponseEntity<>(statusRepository.save(status), HttpStatus.OK);
         }
     }
 
-    public void patchById(int id, String jsonBody) {
+    public ActionStatus patchById(int id, String jsonBody) {
         // check if resource exists at id location
         Optional<ActionStatus> forUpdate = statusRepository
                 .findById(id);
@@ -70,7 +72,7 @@ public class StatusService {
                     Objects.requireNonNull(field).setAccessible(true);
                     ReflectionUtils.setField(field, forUpdate.get(), v);
                 });
-                statusRepository.save(forUpdate.get());
+                return statusRepository.save(forUpdate.get());
             } catch (NullPointerException e) {
                 throw new IllegalArgumentException("Incorrect field set, please verify request body");
             }
