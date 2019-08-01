@@ -22,14 +22,20 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    public Category insertCategory(Category category) {
+        category.setActive(true);
+        return categoryRepository.save(category);
+    }
+
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
         categoryRepository.findAll().forEach(categories::add);
         return categories;
     }
 
-    public Category insertCategory(Category category) {
-        return categoryRepository.save(category);
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Category under given name does not exist."));
     }
 
     public Category getCategoryById(int id) {
@@ -43,7 +49,7 @@ public class CategoryService {
         if (optionalCategory.isPresent()) {
             categoryToUpdate = optionalCategory.get();
             categoryToUpdate.setName(category.getName());
-            categoryToUpdate.setActive(category.isActive());
+            categoryToUpdate.setActive(categoryToUpdate.isActive());
             return categoryRepository.save(categoryToUpdate);
         } else {
             throw new EntityNotFoundException("Failed to update. Category under given id does not exist.");
