@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class StatusService {
@@ -38,15 +39,15 @@ public class StatusService {
     public void putById(int id, ActionStatus status) {
         // check if all fields are present - covered by @Valid
         // check if resource exists at id location..
-        if (statusRepository.existsById(id)) {
+        Optional<ActionStatus> forUpdate = statusRepository
+                .findById(id);
+        if (forUpdate.isPresent()) {
             // if so -> update with entire new object
-            ActionStatus forUpdate = statusRepository
-                    .findById(id)
-                    .get();
-            forUpdate.setName(status.getName());
-            forUpdate.setAvailable(status.isAvailable());
-            forUpdate.setActive(status.isActive());
-            statusRepository.save(forUpdate);
+            ActionStatus statusForUpdate = forUpdate.get();
+            statusForUpdate.setName(status.getName());
+            statusForUpdate.setAvailable(status.isAvailable());
+            statusForUpdate.setActive(status.isActive());
+            statusRepository.save(statusForUpdate);
         } else {
             // if not -> insert it
             status.setId(id);
