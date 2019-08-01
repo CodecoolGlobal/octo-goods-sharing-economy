@@ -14,14 +14,14 @@ public class OctoGoodsApplication {
         SpringApplication.run(OctoGoodsApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner clr(ApplicationContext ctx) {
-        return args -> {
-            System.out.println("Loading Action Status default set");
-
-            StaticDBLoader loader = ctx.getBean(StaticDBLoader.class);
-
-            loader.loadInitialActionStatuses();
-        };
-    }
+//    @Bean
+//    public CommandLineRunner clr(ApplicationContext ctx) {
+//        return args -> {
+//            System.out.println("Loading Action Status default set");
+//
+//            StaticDBLoader loader = ctx.getBean(StaticDBLoader.class);
+//
+//            loader.loadInitialActionStatuses();
+//        };
+//    }
 }
