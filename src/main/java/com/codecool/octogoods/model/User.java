@@ -21,11 +21,15 @@ public class User {
     @NotNull
     private Boolean isActive;
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName() {
+    public void setName(String name) {
         this.name = name;
     }
 

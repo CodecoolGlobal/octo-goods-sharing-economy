@@ -31,5 +31,21 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find resource by 'id': " + id));
     }
 
+    public void deleteById(int id) {
+        userRepository.deleteById(id);
+    }
+
+    public void updateUserById(int id, User user) {
+        if (userRepository.existsById(id)) {
+            User userToUpdate = userRepository.findById(id).get();
+            userToUpdate.setName(user.getName());
+            userToUpdate.setIsActive(user.isActive());
+            userRepository.save(user);
+        } else {
+            userRepository.findById(id).orElseThrow(() ->
+                    new EntityNotFoundException("Cannot find user by 'id': " + id));
+        }
+    }
+
 
 }
