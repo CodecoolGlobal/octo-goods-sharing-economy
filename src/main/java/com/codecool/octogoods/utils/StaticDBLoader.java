@@ -9,9 +9,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class StaticDBLoader {
 
-    public static final String postUrl = "http://localhost:8080/api/status";
+    private static final String postUrl = "http://localhost:8080/api/status";
 
-    public void loadActionStatus(String jsonString) {
+    private void loadActionStatus(String jsonString) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
