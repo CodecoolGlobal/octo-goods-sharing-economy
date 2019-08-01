@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "categories")
@@ -19,6 +20,7 @@ public class Category {
 
     @Column
     @NotBlank
+    @NotNull
     private String name;
 
     @Column
