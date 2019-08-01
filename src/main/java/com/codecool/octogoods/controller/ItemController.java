@@ -36,9 +36,12 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<Item> addItem(@Valid @RequestBody ItemAddDTO itemAddDTO) {
-        Item item = convertToEntity(itemAddDTO);
-
-        return new ResponseEntity<>(itemService.add(item), HttpStatus.OK);
+        try {
+            Item item = convertToEntity(itemAddDTO);
+            return new ResponseEntity<>(itemService.add(item), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
     }
 
     @GetMapping
@@ -56,8 +59,14 @@ public class ItemController {
         }
     }
 
+    @PutMapping(path = "{id}")
+    public ResponseEntity<Item> updateItemById(@PathVariable int id, @Valid @RequestBody Item item) {
+        return itemService.putById(id, item);
+    }
+
     private Item convertToEntity(ItemAddDTO itemAddDTO) {
         User owner = userService.getById(itemAddDTO.getUserId());
+
         Category category = categoryService.getByName(itemAddDTO.getCategoryName());
 
         Item item = modelMapper.map(itemAddDTO, Item.class);
@@ -65,10 +74,5 @@ public class ItemController {
         item.setCategory(category);
 
         return item;
-    }
-
-    @PutMapping(path = "{id}")
-    public ResponseEntity<Item> updateItemById(@PathVariable int id, @Valid @RequestBody Item item) {
-        return itemService.putById(id, item);
     }
 }

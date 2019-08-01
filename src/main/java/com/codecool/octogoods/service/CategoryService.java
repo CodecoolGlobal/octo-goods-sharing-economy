@@ -49,7 +49,12 @@ public class CategoryService {
     }
 
     public Category getByName(String name) {
-        return categoryRepository.getByName(name);
+        Optional<Category> category = categoryRepository.getByName(name);
+        if (category.isPresent()) {
+            return categoryRepository.getByName(name).get();
+        } else {
+            throw new EntityNotFoundException("Category " + name + " not found");
+        }
     }
 
 }
