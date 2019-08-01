@@ -39,7 +39,6 @@ public class ItemService {
     public ResponseEntity<Item> putById(int id, Item item) {
         Optional<Item> forUpdate = itemRepository.findById(id);
         if (forUpdate.isPresent()) {
-//            Item itemForUpdate = forUpdate.get();
             item.setId(id);
             return new ResponseEntity<>(itemRepository.save(item), HttpStatus.OK);
         } else {

@@ -45,11 +45,8 @@ public class StatusService {
                 .findById(id);
         if (forUpdate.isPresent()) {
             // if so -> update with entire new object
-            ActionStatus statusForUpdate = forUpdate.get();
-            statusForUpdate.setName(status.getName());
-            statusForUpdate.setAvailable(status.isAvailable());
-            statusForUpdate.setActive(status.isActive());
-            return new ResponseEntity<>(statusRepository.save(statusForUpdate), HttpStatus.CREATED);
+            status.setId(id);
+            return new ResponseEntity<>(statusRepository.save(status), HttpStatus.CREATED);
         } else {
             // if not -> insert it
             status.setId(id);
