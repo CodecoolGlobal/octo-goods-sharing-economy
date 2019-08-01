@@ -1,6 +1,5 @@
 package com.codecool.octogoods.model;
 
-import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
@@ -41,6 +40,10 @@ public class ItemAction {
 
     public Item getItem() {
         return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public User getUser() {
