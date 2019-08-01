@@ -1,8 +1,8 @@
 package com.codecool.octogoods.controller;
 
-import com.codecool.octogoods.model.AddItemDTO;
 import com.codecool.octogoods.model.Category;
 import com.codecool.octogoods.model.Item;
+import com.codecool.octogoods.model.ItemAddDTO;
 import com.codecool.octogoods.model.User;
 import com.codecool.octogoods.service.CategoryService;
 import com.codecool.octogoods.service.ItemService;
@@ -35,8 +35,8 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<Item> addItem(@Valid @RequestBody AddItemDTO addItemDTO) {
-        Item item = convertToEntity(addItemDTO);
+    public ResponseEntity<Item> addItem(@Valid @RequestBody ItemAddDTO itemAddDTO) {
+        Item item = convertToEntity(itemAddDTO);
 
         return new ResponseEntity<>(itemService.add(item), HttpStatus.OK);
     }
@@ -56,16 +56,19 @@ public class ItemController {
         }
     }
 
-    private Item convertToEntity(AddItemDTO addItemDTO) {
-        User owner = userService.getById(addItemDTO.getUserId());
-        Category category = categoryService.getByName(addItemDTO.getCategoryName());
+    private Item convertToEntity(ItemAddDTO itemAddDTO) {
+        User owner = userService.getById(itemAddDTO.getUserId());
+        Category category = categoryService.getByName(itemAddDTO.getCategoryName());
 
-        Item item = modelMapper.map(addItemDTO, Item.class);
+        Item item = modelMapper.map(itemAddDTO, Item.class);
         item.setOwner(owner);
         item.setCategory(category);
 
         return item;
     }
 
-
+    @PutMapping(path = "{id}")
+    public ResponseEntity<Item> updateItemById(@PathVariable int id, @Valid @RequestBody Item item) {
+        return itemService.putById(id, item);
+    }
 }
