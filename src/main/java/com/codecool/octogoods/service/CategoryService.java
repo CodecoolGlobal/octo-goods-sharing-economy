@@ -76,5 +76,15 @@ public class CategoryService {
         }
     }
 
-    //TODO: getAllActiveCategories, getAllNotActiveCategories
+    public List<Category> getAllActiveCategories() {
+        List<Category> activeCategories = new ArrayList<>();
+        categoryRepository.findAllByIsActiveTrue().forEach(activeCategories::add);
+        return activeCategories;
+    }
+
+    public List<Category> getAllInactiveCategories() {
+        List<Category> activeCategories = new ArrayList<>();
+        categoryRepository.findAllByIsActiveFalse().forEach(activeCategories::add);
+        return activeCategories;
+    }
 }

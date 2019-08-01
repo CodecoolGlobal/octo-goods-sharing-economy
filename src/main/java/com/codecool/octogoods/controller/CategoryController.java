@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -41,6 +40,16 @@ public class CategoryController {
     @GetMapping
     public List<Category> getCategories() {
         return categoryService.getAllCategories();
+    }
+
+    @GetMapping(params = "active=true")
+    public List<Category> getActiveCategories() {
+        return categoryService.getAllActiveCategories();
+    }
+
+    @GetMapping(params = "active=false")
+    public List<Category> getInactiveCategories() {
+        return categoryService.getAllInactiveCategories();
     }
 
     @GetMapping("{id}")

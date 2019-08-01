@@ -11,4 +11,8 @@ import com.codecool.octogoods.model.Category;
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
 
     Optional<Category> findByName(String name);
+
+    Iterable<Category> findAllByIsActiveTrue();
+
+    Iterable<Category> findAllByIsActiveFalse();
 }
