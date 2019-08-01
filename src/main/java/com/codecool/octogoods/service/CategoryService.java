@@ -23,6 +23,7 @@ public class CategoryService {
     }
 
     public Category insertCategory(Category category) {
+        category = getCategoryWithExistingName(category);
         category.setActive(true);
         return categoryRepository.save(category);
     }
@@ -41,6 +42,12 @@ public class CategoryService {
     public Category getCategoryById(int id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Category under given id does not exist."));
+    }
+
+    private Category getCategoryWithExistingName(Category category) {
+        String name = category.getName();
+        Optional<Category> optionalCategory = categoryRepository.findByName(name);
+        return optionalCategory.orElse(category);
     }
 
     public Category updateCategory(Category category) {
