@@ -79,4 +79,12 @@ public class StatusService {
     }
 
 
+    public ActionStatus getStatusByName(String status) {
+        for (ActionStatus st : statusRepository.findAll()) {
+            if (st.getName().equals(status)) {
+                return st;
+            }
+        }
+        return null;
+    }
 }
