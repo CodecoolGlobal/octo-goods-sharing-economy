@@ -1,5 +1,6 @@
 package com.codecool.octogoods.model;
 
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
@@ -32,5 +33,38 @@ public class ItemAction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "action_status_id")
-    private ActionStatus actionStatus;
+    private ActionStatus actionStatus;//DTO
+
+    public int getId() {
+        return id;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public User getUser() {
+        return borrower;
+    }
+
+    public void setUser(User borrower) {
+        this.borrower = borrower;
+    }
+
+    public ZonedDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(ZonedDateTime date) {
+        this.date = date;
+    }
+
+
+    public ActionStatus getActionStatus() {
+        return actionStatus;
+    }
+
+    public void setActionStatus(ActionStatus actionStatus) {
+        this.actionStatus = actionStatus;
+    }
 }

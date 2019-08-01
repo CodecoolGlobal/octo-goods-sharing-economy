@@ -3,6 +3,8 @@ package com.codecool.octogoods.service;
 import com.codecool.octogoods.dao.StatusRepository;
 import com.codecool.octogoods.model.ActionStatus;
 import com.google.gson.Gson;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -11,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class StatusService {
@@ -21,8 +24,8 @@ public class StatusService {
         this.statusRepository = statusRepository;
     }
 
-    public void add(ActionStatus status) {
-        statusRepository.save(status);
+    public ActionStatus add(ActionStatus status) {
+        return statusRepository.save(status);
     }
 
     public List<ActionStatus> getAll() {
@@ -35,32 +38,28 @@ public class StatusService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find resource by 'id': " + id));
     }
 
-    public void putById(int id, ActionStatus status) {
+    public ResponseEntity<ActionStatus> putById(int id, ActionStatus status) {
         // check if all fields are present - covered by @Valid
         // check if resource exists at id location..
-        if (statusRepository.existsById(id)) {
+        Optional<ActionStatus> forUpdate = statusRepository
+                .findById(id);
+        if (forUpdate.isPresent()) {
             // if so -> update with entire new object
-            ActionStatus forUpdate = statusRepository
-                    .findById(id)
-                    .get();
-            forUpdate.setName(status.getName());
-            forUpdate.setAvailable(status.isAvailable());
-            forUpdate.setActive(status.isActive());
-            statusRepository.save(forUpdate);
+            status.setId(id);
+            return new ResponseEntity<>(statusRepository.save(status), HttpStatus.CREATED);
         } else {
             // if not -> insert it
             status.setId(id);
-            statusRepository.save(status);
+            return new ResponseEntity<>(statusRepository.save(status), HttpStatus.OK);
         }
     }
 
-    public void patchById(int id, String jsonBody) {
+    public ActionStatus patchById(int id, String jsonBody) {
         // check if resource exists at id location
-        if (statusRepository.existsById(id)) {
+        Optional<ActionStatus> forUpdate = statusRepository
+                .findById(id);
+        if (forUpdate.isPresent()) {
             // if so -> determine fields to change
-            ActionStatus forUpdate = statusRepository
-                    .findById(id)
-                    .get();
             Gson gson = new Gson();
             Map mapBody = gson.fromJson(jsonBody, Map.class);
             // and set them with reflection and save
@@ -68,9 +67,9 @@ public class StatusService {
                 mapBody.forEach((k, v) -> {
                     Field field = ReflectionUtils.findField(ActionStatus.class, (String) k);
                     Objects.requireNonNull(field).setAccessible(true);
-                    ReflectionUtils.setField(field, forUpdate, v);
+                    ReflectionUtils.setField(field, forUpdate.get(), v);
                 });
-                statusRepository.save(forUpdate);
+                return statusRepository.save(forUpdate.get());
             } catch (NullPointerException e) {
                 throw new IllegalArgumentException("Incorrect field set, please verify request body");
             }
@@ -78,4 +77,6 @@ public class StatusService {
             throw new EntityNotFoundException("Cannot find resource by 'id': " + id);
         }
     }
+
+
 }

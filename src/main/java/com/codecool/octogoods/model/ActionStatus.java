@@ -1,7 +1,5 @@
 package com.codecool.octogoods.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +12,7 @@ public class ActionStatus {
     @Column
     private int id;
 
-    @Column
+    @Column(unique = true)
     @NotBlank
     private String name;
 
@@ -23,9 +21,8 @@ public class ActionStatus {
     private Boolean available;
 
     @Column
-
     @NotNull
-    private Boolean isActive;
+    private Boolean active;
 
     public int getId() {
         return id;
@@ -52,10 +49,10 @@ public class ActionStatus {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.active = active;
     }
 }

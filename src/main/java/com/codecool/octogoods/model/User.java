@@ -2,7 +2,6 @@ package com.codecool.octogoods.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Table(name = "users")
 @Entity
@@ -18,7 +17,6 @@ public class User {
     private String name;
 
     @Column
-    @NotNull
     private Boolean isActive;
 
     public int getId() {
