@@ -18,11 +18,14 @@ public class OctoGoodsApplication {
     @Bean
     public CommandLineRunner clr(ApplicationContext ctx) {
         return args -> {
-            System.out.println("Loading Action Status default set");
+            System.out.println("Loading default data set..");
 
             StaticDBLoader loader = ctx.getBean(StaticDBLoader.class);
 
             loader.loadInitialActionStatuses();
+            loader.loadInitialUsers();
+            loader.loadInitialCategories();
+            loader.loadInitialItems();
         };
     }
 
