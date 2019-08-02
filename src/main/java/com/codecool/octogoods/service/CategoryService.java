@@ -35,6 +35,7 @@ public class CategoryService {
     }
 
     public Category getCategoryByName(String name) {
+        name = name.toLowerCase();
         return categoryRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Category under given name does not exist."));
     }
@@ -69,7 +70,7 @@ public class CategoryService {
         if (optionalCategory.isPresent()) {
             categoryToUpdate = optionalCategory.get();
             categoryToUpdate.setActive(false);
-            return  categoryRepository.save(categoryToUpdate);
+            return categoryRepository.save(categoryToUpdate);
         } else {
             throw new EntityNotFoundException("Failed to delete. Category under given id does not exist.");
 
